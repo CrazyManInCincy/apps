@@ -22,7 +22,7 @@
 {% do c1.environment.add_env("LLDAP_LDAP_USER_PASS", values.lldap.admin_password) %}
 {% do c1.environment.add_env("LLDAP_LDAP_BASE_DN", values.lldap.ldap_base_dn) %}
 
-{% if values.lldap.enable_password_reset %}
+{% if values.lldap.get("enable_password_reset", false) %}
   {% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET", "true") %}
   {% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__SERVER", values.lldap.smtp.server) %}
   {% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__PORT", values.lldap.smtp.port) %}
