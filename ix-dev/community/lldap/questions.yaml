@@ -89,6 +89,72 @@ questions:
           schema:
             type: uri
             default: ""
+        - variable: enable_password_reset
+          label: Enable Password Reset Email
+          description: Enable SMTP email delivery for password reset messages.
+          schema:
+            type: boolean
+            default: false
+        - variable: smtp
+          label: SMTP Configuration
+          description: Configure the SMTP server used to send password reset emails.
+          schema:
+            type: dict
+            show_if: [["enable_password_reset", "=", true]]
+            attrs:
+              - variable: server
+                label: SMTP Server
+                schema:
+                  type: string
+                  default: ""
+                  required: true
+              - variable: port
+                label: SMTP Port
+                schema:
+                  type: int
+                  default: 587
+                  min: 1
+                  max: 65535
+                  required: true
+              - variable: encryption
+                label: SMTP Encryption
+                description: Use NONE for unencrypted SMTP, TLS for implicit TLS, or STARTTLS to upgrade the connection.
+                schema:
+                  type: string
+                  default: STARTTLS
+                  required: true
+                  enum:
+                    - value: NONE
+                      description: No encryption
+                    - value: TLS
+                      description: Implicit TLS
+                    - value: STARTTLS
+                      description: STARTTLS
+              - variable: user
+                label: SMTP Username
+                description: Leave empty when the SMTP server does not require authentication.
+                schema:
+                  type: string
+                  default: ""
+              - variable: password
+                label: SMTP Password
+                description: Leave empty when the SMTP server does not require authentication.
+                schema:
+                  type: string
+                  default: ""
+                  private: true
+              - variable: from
+                label: From Address
+                description: Optional sender, for example LLDAP Admin <sender@example.com>.
+                schema:
+                  type: string
+                  default: ""
+              - variable: reply_to
+                label: Reply-To Address
+                description: Optional reply-to value, for example Do not reply <noreply@example.com>.
+                schema:
+                  type: string
+                  default: ""
         - variable: additional_envs
           label: Additional Environment Variables
           description: Configure additional environment variables for LLDAP.
