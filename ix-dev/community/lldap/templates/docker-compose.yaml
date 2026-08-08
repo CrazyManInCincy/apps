@@ -22,6 +22,17 @@
 {% do c1.environment.add_env("LLDAP_LDAP_USER_PASS", values.lldap.admin_password) %}
 {% do c1.environment.add_env("LLDAP_LDAP_BASE_DN", values.lldap.ldap_base_dn) %}
 
+{% if values.lldap.enable_password_reset %}
+  {% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET", "true") %}
+  {% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__SERVER", values.lldap.smtp.server) %}
+  {% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__PORT", values.lldap.smtp.port) %}
+  {% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION", values.lldap.smtp.encryption) %}
+  {% if values.lldap.smtp.user %}{% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__USER", values.lldap.smtp.user) %}{% endif %}
+  {% if values.lldap.smtp.password %}{% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__PASSWORD", values.lldap.smtp.password) %}{% endif %}
+  {% if values.lldap.smtp.from %}{% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__FROM", values.lldap.smtp.from) %}{% endif %}
+  {% if values.lldap.smtp.reply_to %}{% do c1.environment.add_env("LLDAP_SMTP_OPTIONS__REPLY_TO", values.lldap.smtp.reply_to) %}{% endif %}
+{% endif %}
+
 {% if values.network.ldaps_port.bind_mode %}
   {% do c1.environment.add_env("LLDAP_LDAPS_OPTIONS__ENABLED", "true") %}
   {% do c1.environment.add_env("LLDAP_LDAPS_OPTIONS__PORT", values.network.ldaps_port.port_number) %}
